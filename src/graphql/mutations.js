@@ -1,5 +1,6 @@
 const { GraphQLString } = require('graphql')
-const { User } = require('../models')
+const { TaskType } = require('./typedef')
+const { User, Task } = require('../models')
 const { createJWT } = require('../utils')
 
 // Users 
