@@ -1,10 +1,11 @@
 const { GraphQLString } = require('graphql')
 const { User } = require('../models')
+const { createJWT } = require('../utils')
 
 // Users 
 const register = {
     type: GraphQLString,
-    description: "Create new user",
+    description: "Create new user and return a token",
     args: {
         username: { type: GraphQLString },
         email: { type: GraphQLString}, 
@@ -13,8 +14,13 @@ const register = {
     },   
     resolve: async (__, args)=> {
         try {
-            await User.create({ ...args})
-            return 'User created successfully'
+            const user = await User.create({ ...args})
+            return createJWT({
+                _id: user.id, 
+                username: user.username,
+                email: user.email,
+                displayName: user.displayName
+            })
         } catch (e){
             throw new Error(e)
         }
