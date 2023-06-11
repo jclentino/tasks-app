@@ -108,5 +108,29 @@ const updateTask = {
     }
 }
 
-module.exports = { register, login, createTask, updateTask }
+const deleteTask = {
+    type: GraphQLString,
+    description: 'Delete Task by Id',
+    args: {
+        id: { type: GraphQLID },
+    },
+    resolve: async (_, { id }, { verifiedUser } )=> {
+        try {
+            if (!verifiedUser){
+                throw new Error('Unauthorizated')
+            }
+    
+            await Task.deleteOne({
+                _id: id,
+                authorId: verifiedUser._id
+            })
+    
+            return 'Task delete'
+        } catch (e){
+            throw new Error(e)
+        }
+    }
+}
+
+module.exports = { register, login, createTask, updateTask, deleteTask }
 
