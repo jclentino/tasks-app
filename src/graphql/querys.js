@@ -1,6 +1,6 @@
 const { GraphQLID, GraphQLList } = require('graphql')
-const { UserType } = require('./typedef')
-const { User } = require('../models')
+const { UserType, TaskType } = require('./typedef')
+const { User, Task } = require('../models')
 
 // Users 
 const user = {
@@ -30,4 +30,17 @@ const users = {
     }
 }
 
-module.exports = { user, users }
+// Tasks 
+const tasks = {
+    type: new GraphQLList(TaskType), 
+    description: 'List of Tasks',
+    resolve: ()=> {
+        try {
+            return Task.find()
+        } catch (e){
+            throw new Error(e)
+        }
+    } 
+}
+
+module.exports = { user, users, tasks }
