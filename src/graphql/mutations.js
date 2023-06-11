@@ -53,5 +53,29 @@ const login = {
     }
 }
 
-module.exports = { register, login }
+// Tasks 
+const createTask = {
+    type: TaskType,
+    description: 'Create a new Task',
+    args: {
+        title: { type: GraphQLString },
+        description: { type: GraphQLString }
+    },
+    resolve: async (_, args, { verifiedUser } )=> {
+        try {
+            if (!verifiedUser){
+                throw new Error('Unauthorizated')
+            }
+
+            return await Task.create({
+                authorId: verifiedUser._id,
+                ...args
+            })
+        } catch (e){
+            throw new Error(e)
+        }
+    }
+}
+
+module.exports = { register, login, createTask }
 
