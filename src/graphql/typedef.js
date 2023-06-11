@@ -1,4 +1,5 @@
-const { GraphQLObjectType, GraphQLID, GraphQLString,  } = require('graphql')
+const { GraphQLObjectType, GraphQLID, GraphQLString, GraphQLBoolean  } = require('graphql')
+const { User } = require('../models')
 
 const UserType = new GraphQLObjectType({
     name: 'UserType',
@@ -13,4 +14,20 @@ const UserType = new GraphQLObjectType({
     }
 })
 
-module.exports = { UserType }
+const TaskType = new GraphQLObjectType({
+    name: "TaskType",
+    description: "The task type",
+    fields: {
+        id: { type: GraphQLID },
+        title: { type: GraphQLString },
+        description: { type: GraphQLString },
+        completed: { type: GraphQLBoolean },
+        author: { type: UserType, resolve(parent){
+            return User.findById(parent.authorId)
+        }},
+        createdAt: { type: GraphQLString},
+        updatedAt: { type: GraphQLString }
+    }
+})
+
+module.exports = { UserType, TaskType }
