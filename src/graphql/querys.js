@@ -31,6 +31,21 @@ const users = {
 }
 
 // Tasks 
+const task = {
+    type: TaskType, 
+    description: 'Get a Task by Id',
+    args: {
+        id: { type: GraphQLID },
+    },
+    resolve: (__, { id })=> {
+        try {
+            return Task.findById({ _id: id })
+        } catch (e){
+            throw new Error(e)
+        }
+    }
+}
+
 const tasks = {
     type: new GraphQLList(TaskType), 
     description: 'List of Tasks',
@@ -43,4 +58,4 @@ const tasks = {
     } 
 }
 
-module.exports = { user, users, tasks }
+module.exports = { user, users, task, tasks }
