@@ -1,4 +1,4 @@
-const { GraphQLString } = require('graphql')
+const { GraphQLID, GraphQLString } = require('graphql')
 const { TaskType } = require('./typedef')
 const { User, Task } = require('../models')
 const { createJWT } = require('../utils')
@@ -78,5 +78,35 @@ const createTask = {
     }
 }
 
-module.exports = { register, login, createTask }
+const updateTask = {
+    type: TaskType,
+    description: 'Update Task by Id',
+    args: {
+        id: { type: GraphQLID },
+        title: { type: GraphQLString },
+        description: { type: GraphQLString },
+    },
+    resolve: async (_, { id, title, description,  }, { verifiedUser } )=> {
+        try {
+            if (!verifiedUser){
+                throw new Error('Unauthorizated')
+            }
+
+            return await Task.findOneAndUpdate({
+                _id: id,
+                authorId: verifiedUser._id
+            }, {
+                title, 
+                description, 
+            }, {
+                new: true
+            })
+
+        } catch (e){
+            throw new Error(e)
+        }
+    }
+}
+
+module.exports = { register, login, createTask, updateTask }
 
