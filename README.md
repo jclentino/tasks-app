@@ -10,8 +10,10 @@ https://github.com/jclentino/tasks-app.git
 2. Accede a la carpeta del proyecto 
 cd tasks-app
 
-3. Instala las dependencias con 
-npm install 
+3. Eliminar el archivo package-lock.json 
+
+4. Instala las dependencias con 
+npm install --force 
 
 
 ## Configuración
@@ -30,19 +32,20 @@ npm run dev
 http://localhost:PORT/graphql
 
 3. A partir de aquí, puedes comenzar a ejecutar consultas y mutaciones utilizando GraphQL.
-# Crear usuarios: 
+
+Crear usuarios: 
 mutation {
   register (username: "user name", email: "useremail@gmail.com", password: "user123", displayName: "my new user")
 }
 
 
-# Inicio de sesion (retorno de un token):
+Inicio de sesion (retorno de un token):
 mutation {
   login (email: "useremail@gmail.com", password: "user123")
 }
 
 
-# Consultando un usuario por su id:
+Consultando un usuario por su id:
 query {
   user (id: "NroID"){
     id
@@ -55,7 +58,7 @@ query {
 }
 
 
-# Consultado lista de ususarios: 
+Consultado lista de ususarios: 
 query {
   users {
     id
@@ -67,7 +70,7 @@ query {
   }
 }
 
-# Creando nuevas tareas de un usuario (Token del usuario en los headers): 
+Creando nuevas tareas de un usuario (Token del usuario en los headers): 
 mutation {
   createTask(title: "new task", description: "new description"){
     id
@@ -86,7 +89,7 @@ mutation {
 }
 
 
-# Consulta de todas las tareas:
+Consulta de todas las tareas:
 query {
   tasks {
     id
@@ -106,7 +109,7 @@ query {
 }
 
 
-# Consulta una tarea por su identificador:
+Consulta una tarea por su identificador:
 query {
   task(id: "NroId"){
     id
@@ -127,7 +130,7 @@ query {
 }
 
 
-# Modificando tarea de un usuario (Token del usuario en los headers):
+Modificando tarea de un usuario (Token del usuario en los headers):
 mutation {
   updateTask (id: "NroId", title: "my new title", description: "my new description"){
     id
@@ -147,7 +150,7 @@ mutation {
   }
 }
 
-# Eliminando una tarea de un usuario (Token del usuario en los headers):
+Eliminando una tarea de un usuario (Token del usuario en los headers):
 mutation {
   deleteTask(id:"nroid")
 }
