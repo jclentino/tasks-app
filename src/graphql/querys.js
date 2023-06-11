@@ -1,9 +1,18 @@
-const { GraphQLString } = require('graphql')
+const { GraphQLList } = require('graphql')
+const { UserType } = require('./typedef')
+const { User } = require('../models')
 
-// Message 
-const welcomeMessage = {
-    type: GraphQLString, 
-    description: 'A welcome message',
-    resolve: ()=> 'Welcome to Tasks-App'
+// Users 
+const users = {
+    type: new GraphQLList(UserType), 
+    description: 'List of Users',
+    resolve: ()=> {
+        try {
+            return User.find()
+        } catch (e){
+            throw new Error(e)
+        }
+    }
 }
-module.exports = { welcomeMessage }
+
+module.exports = { users }
